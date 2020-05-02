@@ -28,7 +28,7 @@ class MicroserviceTest extends TestCase
     public function testService()
     {
         $responseGET = $this->json('GET', '/', [], [
-            //'Authorization' => $this->getKey()
+            'Authorization' => $this->getKey()
         ]);
         $responseGET->assertResponseStatus(200);
     }
@@ -37,7 +37,7 @@ class MicroserviceTest extends TestCase
     public function testCanGetCars()
     {
         $responseGET = $this->json('GET', '/cars', [], [
-           // 'Authorization' => $this->getKey()
+            'Authorization' => $this->getKey()
         ]);
         $responseGET->seeJsonStructure([
             'data' => [
@@ -62,7 +62,7 @@ class MicroserviceTest extends TestCase
             'year'          => $year          = rand(date("Y") - 10, date("Y")),
             'category'      => $category      = $faker->text(10),
         ],[
-           // 'Authorization' => $this->getKey()
+            'Authorization' => $this->getKey()
         ]);
 
 
