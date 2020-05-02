@@ -22,3 +22,4 @@ $router->get('/category/{category}', 'CarCategoryController@show');
 $router->put('/categories/{category}', 'CarCategoryController@update');
 $router->patch('/categories/{category}', 'CarCategoryController@update');
 $router->delete('/categories/{category}', 'CarCategoryController@destroy');
+$router->get('/categories/getregisterable', 'CarCategoryController@getregisterable');

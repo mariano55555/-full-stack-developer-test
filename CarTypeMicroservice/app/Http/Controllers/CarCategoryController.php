@@ -55,10 +55,21 @@ class CarCategoryController extends Controller
 
 
     /**
+     * Display an instance of CarCategory
+     * @return Illuminate\Http\Response
+     */
+    public function show($category = null)
+    {
+        $category = CarCategory::findOrFail($category);
+
+        return $this->successResponse($category);
+    }
+
+    /**
      * Update an instance of CarCategory
      * @return Illuminate\Http\Response
      */
-    public function update(Request $request, $car = null)
+    public function update(Request $request, $category = null)
     {
         # code...
     }
@@ -67,8 +78,15 @@ class CarCategoryController extends Controller
      * Removes an instance of CarCategory
      * @return Illuminate\Http\Response
      */
-    public function destroy($car = null)
+    public function destroy($category = null)
     {
         # code...
+    }
+
+
+    public function getregisterable()
+    {
+        $categories = CarCategory::where('isRegisterable', true)->get();
+        return $this->successResponse($categories);
     }
 }
