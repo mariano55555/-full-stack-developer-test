@@ -29,4 +29,10 @@ abstract class TestCase extends BaseTestCase
 
         return $category;
     }
+
+    public function getKey()
+    {
+        $validSecrets = explode(',', env('ACCEPTED_SECRETS'));
+        return ($validSecrets[0]) ? $validSecrets[0] : '';
+    }
 }

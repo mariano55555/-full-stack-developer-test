@@ -19,8 +19,10 @@ class MicroserviceTest extends TestCase
      */
     public function testService()
     {
-        $responseGET = $this->call('GET', '/');
-        $this->assertEquals(200, $responseGET->status());
+        $responseGET = $this->json('GET', '/', [], [
+            'Authorization' => $this->getKey()
+        ]);
+        $responseGET->assertResponseStatus(200);
     }
 
     /**
@@ -30,7 +32,9 @@ class MicroserviceTest extends TestCase
      */
     public function testCanGetCategories()
     {
-        $responseGET = $this->json('GET', '/categories');
+        $responseGET = $this->json('GET', '/categories', [], [
+            'Authorization' => $this->getKey()
+        ]);
         $responseGET->seeJsonStructure([
             'data' => [
                 '*' => [
@@ -49,7 +53,9 @@ class MicroserviceTest extends TestCase
      */
     public function testCanGetRegisterableCategories()
     {
-        $responseGET = $this->json('GET', '/categories/getregisterable');
+        $responseGET = $this->json('GET', '/categories/getregisterable',[],[
+            'Authorization' => $this->getKey()
+        ]);
         $responseGET->seeJsonStructure([
             'data' => [
                 '*' => [
@@ -75,6 +81,8 @@ class MicroserviceTest extends TestCase
             'isRegisterable'   => $isRegisterable = (bool)random_int(0, 1),
             'isBillable'       => $isBillable     = (bool)random_int(0, 1),
             'monthlyCharge'    => $monthlyCharge  = (bool)random_int(0, 1),
+        ],[
+            'Authorization' => $this->getKey()
         ]);
         $responseGET->seeJsonStructure([
             'data' => [
@@ -102,7 +110,9 @@ class MicroserviceTest extends TestCase
     {
 
         $category    = $this->createRecord();
-        $responseGET = $this->json('GET', "/category/{$category->_id}");
+        $responseGET = $this->json('GET', "/category/{$category->_id}", [],[
+            'Authorization' => $this->getKey()
+        ]);
         $responseGET->seeJsonStructure([
             'data' => [
                     "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'updated_at', 'created_at'
@@ -124,6 +134,8 @@ class MicroserviceTest extends TestCase
             'isRegisterable'   => $isRegisterable = (bool)random_int(0, 1),
             'isBillable'       => $isBillable     = (bool)random_int(0, 1),
             'monthlyCharge'    => $monthlyCharge  = (bool)random_int(0, 1),
+        ],[
+            'Authorization' => $this->getKey()
         ]);
         $responseGET->seeJsonStructure([
             'data' => [
@@ -143,14 +155,18 @@ class MicroserviceTest extends TestCase
 
     public function test404OnNotFound()
     {
-        $responseGET = $this->call('GET', '/asdfasfa');
-        $this->assertEquals(404, $responseGET->status());
+        $responseGET = $this->json('GET', '/asdfasfa', [], [
+            'Authorization' => $this->getKey()
+        ]);
+        $responseGET->assertResponseStatus(404);
     }
 
     public function testCanDelete()
     {
         $category = $this->createRecord();
-        $responseDELETE = $this->json('DELETE', "/categories/{$category->_id}");
+        $responseDELETE = $this->json('DELETE', "/categories/{$category->_id}", [], [
+            'Authorization' => $this->getKey()
+        ]);
         $responseDELETE->seeJsonStructure([
             'data' => [
                     "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'deleted_at', 'updated_at', 'created_at'
