@@ -124,7 +124,7 @@ class MicroserviceTest extends TestCase
     }
 
 
-    public function canUpdateCategory()
+    public function testCanUpdateCategory()
     {
         $faker    = Factory::create();
         $category = $this->createRecord();
@@ -162,7 +162,7 @@ class MicroserviceTest extends TestCase
         $responseGET->assertResponseStatus(404);
     }
 
-    public function testCanDelete()
+    public function testCanDeleteCategory()
     {
         $category = $this->createRecord();
         $responseDELETE = $this->json('DELETE', "/categories/{$category->_id}", [], [

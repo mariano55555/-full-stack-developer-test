@@ -72,6 +72,10 @@ class CarController extends Controller
 
     public function destroy($car)
     {
+        $car = Car::findOrFail($car);
 
+        $car->delete();
+
+        return $this->successResponse($car);
     }
 }

@@ -128,4 +128,18 @@ class MicroserviceTest extends TestCase
         ]);
     }
 
+    public function testCanDeleteCar()
+    {
+        $car = $this->createRecord();
+        $responseDELETE = $this->json('DELETE', "/cars/{$car->_id}", [], [
+            'Authorization' => $this->getKey()
+        ]);
+        $responseDELETE->seeJsonStructure([
+            'data' => [
+                "_id", 'license_plate', 'brand', 'color', 'year', 'category', 'updated_at', 'created_at'
+            ]
+        ])
+        ->assertResponseStatus(200);
+    }
+
 }
