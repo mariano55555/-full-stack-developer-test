@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\CarCategory;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class CarCategoryController extends Controller
 {
+
+    use ApiResponser;
+
     /**
      * Create a new controller instance.
      *
@@ -24,7 +28,7 @@ class CarCategoryController extends Controller
     public function index()
     {
         $categories = CarCategory::all();
-        return $categories;
+        return $this->successResponse($categories);
     }
 
     /**

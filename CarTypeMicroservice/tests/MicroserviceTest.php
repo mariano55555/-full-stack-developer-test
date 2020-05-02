@@ -26,8 +26,10 @@ class MicroserviceTest extends TestCase
     {
         $responseGET = $this->json('GET', '/categories');
         $responseGET->seeJsonStructure([
-            '*' => [
-                "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+            'data' => [
+                '*' => [
+                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+                ]
             ]
         ])
         ->assertResponseStatus(200);
