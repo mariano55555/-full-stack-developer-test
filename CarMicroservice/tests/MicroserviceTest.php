@@ -82,5 +82,18 @@ class MicroserviceTest extends TestCase
         ]);
     }
 
+    public function testCanGetOneCar()
+    {
+        $car = $this->createRecord();
+        $responseGET = $this->json('GET', "/car/{$car->_id}", [],[
+            'Authorization' => $this->getKey()
+        ]);
+        $responseGET->seeJsonStructure([
+            'data' => [
+                "_id", 'license_plate', 'brand', 'color', 'year', 'category', 'updated_at', 'created_at'
+            ]
+        ])
+        ->assertResponseStatus(200);
+    }
 
 }
