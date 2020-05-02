@@ -22,6 +22,11 @@ class CarCategory extends Model
         'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
     ];
 
+    protected $casts = [
+        'isRegisterable' => 'boolean',
+        'isBillable'     => 'boolean',
+        'monthlyCharge'  => 'boolean',
+    ];
 
 
     protected $dates = ['deleted_at'];

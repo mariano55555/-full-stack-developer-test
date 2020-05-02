@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CarCategory;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CarCategoryController extends Controller
 {
@@ -37,7 +38,19 @@ class CarCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        # code...
+        $rules = [
+            'name'             => 'required|max:255',
+            'price_per_minute' => 'required|numeric',
+            'isRegisterable'   => 'required|',
+            'isBillable'       => 'required|',
+            'monthlyCharge'    => 'required|',
+        ];
+
+        $this->validate($request, $rules);
+
+        $category = CarCategory::create($request->all());
+
+        return $this->successResponse($category, Response::HTTP_CREATED);
     }
 
 
