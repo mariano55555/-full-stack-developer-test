@@ -14,3 +14,11 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+$router->get('/cars', 'CarController@index');
+$router->post('/cars', 'CarController@store');
+$router->get('/car/{car}', 'CarController@show');
+$router->put('/cars/{car}', 'CarController@update');
+$router->patch('/cars/{car}', 'CarController@update');
+$router->delete('/cars/{car}', 'CarController@destroy');
