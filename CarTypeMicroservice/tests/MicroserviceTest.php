@@ -15,4 +15,17 @@ class MicroserviceTest extends TestCase
         $responseGET = $this->call('GET', '/');
         $this->assertEquals(200, $responseGET->status());
     }
+
+
+    public function testCanGetCategories()
+    {
+        $responseGET = $this->call('GET', '/categories');
+        // $responseGET
+        // ->seeJsonStructure([
+        //     'data' => [
+        //         '_id', 'name', 'email', 'created_at', 'updated_at'
+        //     ]
+        // ]);
+        $this->assertEquals(200, $responseGET->status());
+    }
 }

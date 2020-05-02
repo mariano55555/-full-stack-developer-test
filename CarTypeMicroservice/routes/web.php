@@ -14,3 +14,11 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+$router->get('/categories', 'CarCategoryController@index');
+$router->post('/categories', 'CarCategoryController@store');
+$router->get('/category/{category}', 'CarCategoryController@show');
+$router->put('/categories/{category}', 'CarCategoryController@update');
+$router->patch('/categories/{category}', 'CarCategoryController@update');
+$router->delete('/categories/{category}', 'CarCategoryController@destroy');
