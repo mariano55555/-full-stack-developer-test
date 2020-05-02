@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
@@ -16,16 +17,19 @@ class MicroserviceTest extends TestCase
         $this->assertEquals(200, $responseGET->status());
     }
 
-
+    /**
+     * testCanGetCategories
+     *
+     * @return void
+     */
     public function testCanGetCategories()
     {
-        $responseGET = $this->call('GET', '/categories');
-        // $responseGET
-        // ->seeJsonStructure([
-        //     'data' => [
-        //         '_id', 'name', 'email', 'created_at', 'updated_at'
-        //     ]
-        // ]);
-        $this->assertEquals(200, $responseGET->status());
+        $responseGET = $this->json('GET', '/categories');
+        $responseGET->seeJsonStructure([
+            '*' => [
+                "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+            ]
+        ])
+        ->assertResponseStatus(200);
     }
 }
