@@ -9,6 +9,9 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class MicroserviceTest extends TestCase
 {
+
+    use DatabaseMigrations;
+
     /**
      * A basic service test.
      *
@@ -91,7 +94,7 @@ class MicroserviceTest extends TestCase
 
 
      /**
-     * Get categories to be register in the application
+     * Show one category
      *
      * @return void
      */
@@ -113,6 +116,41 @@ class MicroserviceTest extends TestCase
             ]
         ])
         ->assertResponseStatus(200);
+
+        $this->seeInDatabase('car_categories', [
+            'name'             => $name,
+            'price_per_minute' => $price,
+            'isRegisterable'   => $isRegisterable,
+            'isBillable'       => $isBillable,
+            'monthlyCharge'    => $monthlyCharge,
+        ]);
+    }
+
+
+    public function canUpdateCategory()
+    {
+        $faker = Factory::create();
+        $category = CarCategory::create([
+            'name'             => $name           = $faker->name,
+            'price_per_minute' => $price          = rand(0, 10) / 10,
+            'isRegisterable'   => $isRegisterable = true,
+            'isBillable'       => $isBillable     = false,
+            'monthlyCharge'    => $monthlyCharge  = true,
+        ]);
+
+        $responseGET = $this->json('PUT', "/categories/{$category->_id}",[
+            'name'             => $name           = $faker->name,
+            'price_per_minute' => $price          = rand(0, 10) / 10,
+            'isRegisterable'   => $isRegisterable = (bool)rand(0),
+            'isBillable'       => $isBillable     = false,
+            'monthlyCharge'    => $monthlyCharge  = true,
+        ]);
+        $responseGET->seeJsonStructure([
+            'data' => [
+                "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+            ]
+        ])
+        ->assertResponseStatus(Response::HTTP_CREATED);
 
         $this->seeInDatabase('car_categories', [
             'name'             => $name,

@@ -71,7 +71,24 @@ class CarCategoryController extends Controller
      */
     public function update(Request $request, $category = null)
     {
-        # code...
+        $rules = [
+            'name'             => 'max:255',
+            'price_per_minute' => 'numeric'
+        ];
+
+        $this->validate($request, $rules);
+
+        $category = CarCategory::findOrFail($category);
+
+        $category->fill($request->all());
+
+        if ($category->isClean()) {
+            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $category->save();
+
+        return $this->successResponse($category);
     }
 
     /**
