@@ -19,7 +19,7 @@ class Car extends Model
      * @var array
      */
     protected $fillable = [
-        'license_plate', 'brand', 'color', 'year'
+        'license_plate', 'brand', 'color', 'year', 'category'
     ];
 
 
