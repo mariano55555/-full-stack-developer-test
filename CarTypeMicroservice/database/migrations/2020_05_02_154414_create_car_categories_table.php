@@ -13,9 +13,16 @@ class CreateCarCategoriesTable extends Migration
      */
     public function up()
     {
+
         Schema::create('car_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigIncrements('_id');
+            $table->string('name')->unique();
+            $table->decimal('price_per_minute', 10, 2)->default(0.00);
+            $table->boolean('isRegisterable')->default(false);
+            $table->boolean('isBillable')->default(false);
+            $table->boolean('monthlyCharge')->default(false);
+            $table->nullableTimestamps();
+            $table->softDeletes();
         });
     }
 
