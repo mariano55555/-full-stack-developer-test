@@ -1,5 +1,6 @@
 <?php
 
+use App\CarCategory;
 use Faker\Factory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -78,6 +79,40 @@ class MicroserviceTest extends TestCase
             ]
         ])
         ->assertResponseStatus(Response::HTTP_CREATED);
+
+        $this->seeInDatabase('car_categories', [
+            'name'             => $name,
+            'price_per_minute' => $price,
+            'isRegisterable'   => $isRegisterable,
+            'isBillable'       => $isBillable,
+            'monthlyCharge'    => $monthlyCharge,
+        ]);
+    }
+
+
+     /**
+     * Get categories to be register in the application
+     *
+     * @return void
+     */
+    public function testGetOneCategory()
+    {
+        $faker = Factory::create();
+        $category = CarCategory::create([
+            'name'             => $name           = $faker->name,
+            'price_per_minute' => $price          = rand(0, 10) / 10,
+            'isRegisterable'   => $isRegisterable = true,
+            'isBillable'       => $isBillable     = false,
+            'monthlyCharge'    => $monthlyCharge  = true,
+        ]);
+
+        $responseGET = $this->json('GET', "/category/{$category->_id}");
+        $responseGET->seeJsonStructure([
+            'data' => [
+                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+            ]
+        ])
+        ->assertResponseStatus(200);
 
         $this->seeInDatabase('car_categories', [
             'name'             => $name,
