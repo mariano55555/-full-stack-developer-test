@@ -46,7 +46,28 @@ class CarController extends Controller
 
     public function update(Request $request, $car)
     {
+        $rules = [
+            'license_plate' => 'max:255|unique:cars,license_plate,' . $car,
+            'brand'         => 'max:150',
+            'color'         => 'max:150',
+            'year'          => 'numeric',
+            'category'      => 'max:255',
+        ];
 
+
+        $this->validate($request, $rules);
+
+        $car = Car::findOrFail($car);
+
+        $car->fill($request->all());
+
+        if ($car->isClean()) {
+            return $this->errorResponse('You need to change at least one field', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $car->save();
+
+        return $this->successResponse($car);
     }
 
     public function destroy($car)

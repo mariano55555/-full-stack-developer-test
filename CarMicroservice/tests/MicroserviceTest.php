@@ -96,4 +96,36 @@ class MicroserviceTest extends TestCase
         ->assertResponseStatus(200);
     }
 
+    public function testCanUpdateCar()
+    {
+
+        $faker             = Factory::create();
+        $car               = $this->createRecord();
+        [$brands, $colors] = $this->__list();
+
+        $responseGET = $this->json('PUT', "/cars/{$car->_id}",[
+            'license_plate' => $license_plate = $faker->text(10),
+            'color'         => $color         = $colors[rand(0, 5)],
+            'brand'         => $brand         = $brands[rand(0, 5)],
+            'year'          => $year          = rand(date("Y") - 10, date("Y")),
+            'category'      => $category      = $faker->text(10),
+        ],[
+            'Authorization' => $this->getKey()
+        ]);
+        $responseGET->seeJsonStructure([
+            'data' => [
+                "_id", 'license_plate', 'brand', 'color', 'year', 'category', 'updated_at', 'created_at'
+            ]
+        ])
+        ->assertResponseStatus(200);
+
+        $this->seeInDatabase('cars', [
+            'license_plate' => $license_plate,
+            'color'         => $color,
+            'brand'         => $brand,
+            'year'          => $year,
+            'category'      => $category
+        ]);
+    }
+
 }
