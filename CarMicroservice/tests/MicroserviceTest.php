@@ -142,4 +142,12 @@ class MicroserviceTest extends TestCase
         ->assertResponseStatus(200);
     }
 
+    public function test404OnNotFound()
+    {
+        $responseGET = $this->json('GET', '/asdfasfa', [], [
+            'Authorization' => $this->getKey()
+        ]);
+        $responseGET->assertResponseStatus(404);
+    }
+
 }
