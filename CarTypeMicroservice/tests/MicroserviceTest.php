@@ -10,7 +10,7 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 class MicroserviceTest extends TestCase
 {
 
-    use DatabaseMigrations;
+    #use DatabaseMigrations;
 
     /**
      * A basic service test.
@@ -72,9 +72,9 @@ class MicroserviceTest extends TestCase
         $responseGET = $this->json('POST', '/categories',[
             'name'             => $name           = $faker->name,
             'price_per_minute' => $price          = rand(0, 10) / 10,
-            'isRegisterable'   => $isRegisterable = true,
-            'isBillable'       => $isBillable     = false,
-            'monthlyCharge'    => $monthlyCharge  = true,
+            'isRegisterable'   => $isRegisterable = (bool)random_int(0, 1),
+            'isBillable'       => $isBillable     = (bool)random_int(0, 1),
+            'monthlyCharge'    => $monthlyCharge  = (bool)random_int(0, 1),
         ]);
         $responseGET->seeJsonStructure([
             'data' => [
@@ -100,15 +100,8 @@ class MicroserviceTest extends TestCase
      */
     public function testGetOneCategory()
     {
-        $faker = Factory::create();
-        $category = CarCategory::create([
-            'name'             => $name           = $faker->name,
-            'price_per_minute' => $price          = rand(0, 10) / 10,
-            'isRegisterable'   => $isRegisterable = true,
-            'isBillable'       => $isBillable     = false,
-            'monthlyCharge'    => $monthlyCharge  = true,
-        ]);
 
+        $category    = $this->createRecord();
         $responseGET = $this->json('GET', "/category/{$category->_id}");
         $responseGET->seeJsonStructure([
             'data' => [
@@ -117,33 +110,20 @@ class MicroserviceTest extends TestCase
         ])
         ->assertResponseStatus(200);
 
-        $this->seeInDatabase('car_categories', [
-            'name'             => $name,
-            'price_per_minute' => $price,
-            'isRegisterable'   => $isRegisterable,
-            'isBillable'       => $isBillable,
-            'monthlyCharge'    => $monthlyCharge,
-        ]);
     }
 
 
     public function canUpdateCategory()
     {
-        $faker = Factory::create();
-        $category = CarCategory::create([
-            'name'             => $name           = $faker->name,
-            'price_per_minute' => $price          = rand(0, 10) / 10,
-            'isRegisterable'   => $isRegisterable = true,
-            'isBillable'       => $isBillable     = false,
-            'monthlyCharge'    => $monthlyCharge  = true,
-        ]);
+        $faker    = Factory::create();
+        $category = $this->createRecord();
 
         $responseGET = $this->json('PUT', "/categories/{$category->_id}",[
             'name'             => $name           = $faker->name,
             'price_per_minute' => $price          = rand(0, 10) / 10,
-            'isRegisterable'   => $isRegisterable = (bool)rand(0),
-            'isBillable'       => $isBillable     = false,
-            'monthlyCharge'    => $monthlyCharge  = true,
+            'isRegisterable'   => $isRegisterable = (bool)random_int(0, 1),
+            'isBillable'       => $isBillable     = (bool)random_int(0, 1),
+            'monthlyCharge'    => $monthlyCharge  = (bool)random_int(0, 1),
         ]);
         $responseGET->seeJsonStructure([
             'data' => [
@@ -159,5 +139,11 @@ class MicroserviceTest extends TestCase
             'isBillable'       => $isBillable,
             'monthlyCharge'    => $monthlyCharge,
         ]);
+    }
+
+    public function test404OnNotFound()
+    {
+        $responseGET = $this->call('GET', '/asdfasfa');
+        $this->assertEquals(404, $responseGET->status());
     }
 }
