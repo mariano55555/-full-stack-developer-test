@@ -83,13 +83,14 @@ class MicroserviceTest extends TestCase
             'monthlyCharge'    => $monthlyCharge  = (bool)random_int(0, 1),
         ],[
             'Authorization' => $this->getKey()
-        ]);
+        ])
+        ->assertResponseStatus(Response::HTTP_CREATED);
         $responseGET->seeJsonStructure([
             'data' => [
                 "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'updated_at', 'created_at'
             ]
-        ])
-        ->assertResponseStatus(Response::HTTP_CREATED);
+        ]);
+
 
         $this->seeInDatabase('car_categories', [
             'name'             => $name,
