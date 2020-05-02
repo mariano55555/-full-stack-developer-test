@@ -97,7 +97,11 @@ class CarCategoryController extends Controller
      */
     public function destroy($category = null)
     {
-        # code...
+        $category = CarCategory::findOrFail($category);
+
+        $category->delete();
+
+        return $this->successResponse($category);
     }
 
 

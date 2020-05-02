@@ -34,7 +34,7 @@ class MicroserviceTest extends TestCase
         $responseGET->seeJsonStructure([
             'data' => [
                 '*' => [
-                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'updated_at', 'created_at'
                 ]
             ]
         ])
@@ -53,7 +53,7 @@ class MicroserviceTest extends TestCase
         $responseGET->seeJsonStructure([
             'data' => [
                 '*' => [
-                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'updated_at', 'created_at'
                 ]
             ]
         ])
@@ -78,7 +78,7 @@ class MicroserviceTest extends TestCase
         ]);
         $responseGET->seeJsonStructure([
             'data' => [
-                "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+                "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'updated_at', 'created_at'
             ]
         ])
         ->assertResponseStatus(Response::HTTP_CREATED);
@@ -105,7 +105,7 @@ class MicroserviceTest extends TestCase
         $responseGET = $this->json('GET', "/category/{$category->_id}");
         $responseGET->seeJsonStructure([
             'data' => [
-                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'updated_at', 'created_at'
             ]
         ])
         ->assertResponseStatus(200);
@@ -127,7 +127,7 @@ class MicroserviceTest extends TestCase
         ]);
         $responseGET->seeJsonStructure([
             'data' => [
-                "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge'
+                "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'updated_at', 'created_at'
             ]
         ])
         ->assertResponseStatus(Response::HTTP_CREATED);
@@ -145,5 +145,17 @@ class MicroserviceTest extends TestCase
     {
         $responseGET = $this->call('GET', '/asdfasfa');
         $this->assertEquals(404, $responseGET->status());
+    }
+
+    public function testCanDelete()
+    {
+        $category = $this->createRecord();
+        $responseDELETE = $this->json('DELETE', "/categories/{$category->_id}");
+        $responseDELETE->seeJsonStructure([
+            'data' => [
+                    "_id", 'name', 'price_per_minute', 'isRegisterable', 'isBillable', 'monthlyCharge', 'deleted_at', 'updated_at', 'created_at'
+            ]
+        ])
+        ->assertResponseStatus(200);
     }
 }
