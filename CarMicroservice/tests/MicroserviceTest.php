@@ -150,4 +150,11 @@ class MicroserviceTest extends TestCase
         $responseGET->assertResponseStatus(404);
     }
 
+
+    public function testUnauthorized()
+    {
+        $responseGET = $this->json('GET', '/cars');
+        $responseGET->assertResponseStatus(401);
+    }
+
 }
