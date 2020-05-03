@@ -114,7 +114,7 @@ class UserController extends Controller
      * Identifies the current user
      * @return Illuminate\Http\Response
      */
-    public function me(Request $request)
+    public function myaccount(Request $request)
     {
         return $this->validResponse($request->user());
     }
