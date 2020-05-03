@@ -23,7 +23,17 @@ $router->put('/cars/{car}', 'CarController@update');
 $router->patch('/cars/{car}', 'CarController@update');
 $router->delete('/cars/{car}', 'CarController@destroy');
 
+$router->get('/categories', 'CarCategoryController@index');
+$router->post('/categories', 'CarCategoryController@store');
+$router->get('/category/{category}', 'CarCategoryController@show');
+$router->put('/categories/{category}', 'CarCategoryController@update');
+$router->patch('/categories/{category}', 'CarCategoryController@update');
+$router->delete('/categories/{category}', 'CarCategoryController@destroy');
+$router->get('/categories/getregisterable', 'CarCategoryController@getregisterable');
 
-$router->get('/parking', 'ParkingController@index');
-$router->post('/parking', 'ParkingController@store');
-$router->get('/getparking', 'ParkingController@show');
+$router->post('/getparkingprice', 'CarController@getParkingPrice');
+
+
+// $router->get('/parking', 'ParkingController@index');
+// $router->post('/parking', 'ParkingController@store');
+// $router->get('/getparking', 'ParkingController@show');

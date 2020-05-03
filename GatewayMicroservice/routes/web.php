@@ -24,10 +24,10 @@ $router->group(['middleware' => 'client.credentials'], function() use ($router) 
     $router->put('/cars/{car}', 'CarController@update');
     $router->patch('/cars/{car}', 'CarController@update');
     $router->delete('/cars/{car}', 'CarController@destroy');
-
-    $router->get('/parking', 'ParkingController@index');
-    $router->post('/parking', 'ParkingController@store');
-    $router->get('/getparking', 'ParkingController@show');
+    $router->get('/getparkingprice', 'CarController@getParkingPrice');
+    // $router->get('/parking', 'ParkingController@index');
+    // $router->post('/parking', 'ParkingController@store');
+    // $router->get('/getparking', 'ParkingController@show');
 
 
     /**
@@ -43,6 +43,13 @@ $router->group(['middleware' => 'client.credentials'], function() use ($router) 
     $router->get('/categories/getregisterable', 'CarCategoryController@getregisterable');
 
 
+    /**
+     * PARKING
+     */
+
+    $router->get('/parking', 'ParkingController@index');
+    $router->post('/parking', 'ParkingController@store');
+    $router->get('/getparking/{month}/{year}', 'ParkingController@show');
     /**
      * USERS
      */
@@ -60,5 +67,5 @@ $router->group(['middleware' => 'client.credentials'], function() use ($router) 
  * Routes protected by user credentials
  */
 $router->group(['middleware' => 'auth:api'], function () use ($router) {
-    $router->get('/users/myaccount', 'UserController@myaccount');
+    $router->get('/user/myaccount', 'UserController@myaccount');
 });

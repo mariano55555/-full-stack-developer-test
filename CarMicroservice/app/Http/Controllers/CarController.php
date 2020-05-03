@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Car;
+use App\CarCategory;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -77,5 +78,45 @@ class CarController extends Controller
         $car->delete();
 
         return $this->successResponse($car);
+    }
+
+
+    public function getParkingPrice(Request $request)
+    {
+        if(!$request->has("data")){
+            return $this->successResponse(array());
+        }
+
+        $data = $request->all();
+        $data = $data["data"];
+
+        $cars = Car::with("car_category:name,price_per_minute,isBillable,monthlyCharge")
+                    ->whereIn("license_plate", array_keys($data))
+                    ->get();
+        $aux = [];
+        foreach ($cars as $car) {
+            array_push($aux, $car->license_plate);
+            $car->total_month = $data[$car->license_plate] * $car->car_category->price_per_minute;
+        }
+
+
+         $noresidentes_aux = [];
+         $noresidentes = array_values(array_diff(array_keys($data),$aux));
+         if(!empty($noresidentes)){
+             $no_residente = CarCategory::where("name", "No Residente")->first();
+             foreach ($noresidentes as $noresidente) {
+                    array_push($noresidentes_aux, [
+                        'license_plate' => $noresidente,
+                        'total_month'   => $no_residente->price_per_minute * $data[$noresidente],
+                        'car_category'  => $no_residente
+                    ]);
+             }
+             $cars = $cars->concat($noresidentes_aux);
+             $cars->all();
+         }
+
+
+
+        return $this->successResponse($cars);
     }
 }

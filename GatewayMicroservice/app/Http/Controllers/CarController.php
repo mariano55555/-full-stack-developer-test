@@ -57,4 +57,9 @@ class CarController extends Controller
     {
         return $this->successResponse($this->carService->deleteCar( $car));
     }
+
+    public function getParkingPrice(Request $request)
+    {
+        return $this->successResponse($this->carService->getParkingPrice($request->all()));
+    }
 }

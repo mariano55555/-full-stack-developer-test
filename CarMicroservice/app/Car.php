@@ -25,4 +25,9 @@ class Car extends Model
 
 
     protected $dates = ['deleted_at'];
+
+    public function car_category()
+    {
+        return $this->belongsTo(CarCategory::class, 'category');
+    }
 }

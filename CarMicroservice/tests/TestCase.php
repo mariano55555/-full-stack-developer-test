@@ -2,6 +2,7 @@
 
 use App\Car;
 use Faker\Factory;
+use App\CarCategory;
 use Laravel\Lumen\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -16,13 +17,15 @@ abstract class TestCase extends BaseTestCase
         return require __DIR__.'/../bootstrap/app.php';
     }
 
-    public function createRecord()
+    public function createCarRecord()
     {
+        $faker  = Factory::create();
+
         $brands = ["Toyota", "Nissan", "Honda", "Suzuki", "Mitsubishi", "BMW"];
         $colors = ["Black", "Blue", "Red", "Brown", "Light Blue", "Yellow"];
-        $faker  = Factory::create();
+
         $car    = Car::create([
-            'license_plate' => $faker->text(10),
+            'license_plate' => $faker->unique()->text(45),
             'color'         => $colors[rand(0, 5)],
             'brand'         => $brands[rand(0, 5)],
             'year'          => rand(date("Y") - 10, date("Y")),
@@ -30,6 +33,20 @@ abstract class TestCase extends BaseTestCase
         ]);
 
         return $car;
+    }
+
+    public function createCategoryRecord()
+    {
+        $faker = Factory::create();
+        $category = CarCategory::create([
+            'name'             => $faker->unique()->name,
+            'price_per_minute' => rand(0, 10) / 10,
+            'isRegisterable'   => (bool)random_int(0, 1),
+            'isBillable'       => (bool)random_int(0, 1),
+            'monthlyCharge'    => (bool)random_int(0, 1),
+        ]);
+
+        return $category;
     }
 
     public function getKey()
