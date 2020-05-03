@@ -11,24 +11,30 @@
 |
 */
 
-/**
- * CARS
- */
-$router->get('/cars', 'CarController@index');
-$router->post('/cars', 'CarController@store');
-$router->get('/car/{car}', 'CarController@show');
-$router->put('/cars/{car}', 'CarController@update');
-$router->patch('/cars/{car}', 'CarController@update');
-$router->delete('/cars/{car}', 'CarController@destroy');
+$router->group(['middleware' => 'client.credentials'], function() use ($router) {
 
-/**
- * CATEGORIES
- */
 
-$router->get('/categories', 'CarCategoryController@index');
-$router->post('/categories', 'CarCategoryController@store');
-$router->get('/category/{category}', 'CarCategoryController@show');
-$router->put('/categories/{category}', 'CarCategoryController@update');
-$router->patch('/categories/{category}', 'CarCategoryController@update');
-$router->delete('/categories/{category}', 'CarCategoryController@destroy');
-$router->get('/categories/getregisterable', 'CarCategoryController@getregisterable');
+
+    /**
+     * CARS
+     */
+    $router->get('/cars', 'CarController@index');
+    $router->post('/cars', 'CarController@store');
+    $router->get('/car/{car}', 'CarController@show');
+    $router->put('/cars/{car}', 'CarController@update');
+    $router->patch('/cars/{car}', 'CarController@update');
+    $router->delete('/cars/{car}', 'CarController@destroy');
+
+    /**
+     * CATEGORIES
+     */
+
+    $router->get('/categories', 'CarCategoryController@index');
+    $router->post('/categories', 'CarCategoryController@store');
+    $router->get('/category/{category}', 'CarCategoryController@show');
+    $router->put('/categories/{category}', 'CarCategoryController@update');
+    $router->patch('/categories/{category}', 'CarCategoryController@update');
+    $router->delete('/categories/{category}', 'CarCategoryController@destroy');
+    $router->get('/categories/getregisterable', 'CarCategoryController@getregisterable');
+
+});

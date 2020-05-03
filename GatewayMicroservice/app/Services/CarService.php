@@ -14,6 +14,7 @@ class CarService
      */
     public $baseUri;
 
+
     /**
      * The secret to be used to consume the cars service
      * @var string
