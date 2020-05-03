@@ -22,3 +22,8 @@ $router->get('/car/{car}', 'CarController@show');
 $router->put('/cars/{car}', 'CarController@update');
 $router->patch('/cars/{car}', 'CarController@update');
 $router->delete('/cars/{car}', 'CarController@destroy');
+
+
+$router->get('/parking', 'ParkingController@index');
+$router->post('/parking', 'ParkingController@store');
+#$router->get('/getparking', 'ParkingController@show');
