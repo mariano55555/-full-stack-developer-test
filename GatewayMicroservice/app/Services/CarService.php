@@ -71,4 +71,36 @@ class CarService
     {
         return $this->performRequest('DELETE', "/cars/{$car}");
     }
+
+     /**
+     * Parking listing
+     * @return string
+     */
+    public function obtainParking()
+    {
+        return $this->performRequest('GET', '/parking');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $data
+     * @return void
+     */
+    public function storeParking($data)
+    {
+        return $this->performRequest('POST', '/parking', $data);
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $data
+     * @return void
+     */
+    public function showParking($data)
+    {
+        return $this->performRequest('GET', "/getparking", $data);
+    }
 }

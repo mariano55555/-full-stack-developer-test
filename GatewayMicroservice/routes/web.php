@@ -25,6 +25,11 @@ $router->group(['middleware' => 'client.credentials'], function() use ($router) 
     $router->patch('/cars/{car}', 'CarController@update');
     $router->delete('/cars/{car}', 'CarController@destroy');
 
+    $router->get('/parking', 'ParkingController@index');
+    $router->post('/parking', 'ParkingController@store');
+    $router->get('/getparking/{month?}/{year?}', 'ParkingController@show');
+
+
     /**
      * CATEGORIES
      */

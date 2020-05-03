@@ -45,7 +45,7 @@ class CategoryService
     }
 
     /**
-     * Get a single car from the cars service
+     * Get a single category from the category service
      * @return string
      */
     public function obtainCategory($category)
@@ -54,7 +54,7 @@ class CategoryService
     }
 
     /**
-     * Edit a single car from the cars service
+     * Edit a single category from the category service
      * @return string
      */
     public function editCategory($data, $category)
@@ -63,11 +63,13 @@ class CategoryService
     }
 
     /**
-     * Remove a single car from the cars service
+     * Remove a single category from the category service
      * @return string
      */
     public function deleteCategory($category)
     {
         return $this->performRequest('DELETE', "/categories/{$category}");
     }
+
+
 }

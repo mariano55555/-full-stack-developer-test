@@ -64,10 +64,10 @@ class ParkingController extends Controller
     }
 
 
-    public function show($month = null, $year = null)
+    public function show(Request $request)
     {
-        $month = isset($month) ? $month : date("n");
-        $year  = isset($year) ? $year : date("Y");
+        $month = isset($request->month) ? $request->month : date("n");
+        $year  = isset($request->year) ? $request->year : date("Y");
 
         $start = Carbon::create()->month($month)->year($year)->startOfMonth();
         $end   = Carbon::create()->month($month)->year($year)->endOfMonth();
