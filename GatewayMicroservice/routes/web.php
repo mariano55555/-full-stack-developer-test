@@ -27,7 +27,7 @@ $router->group(['middleware' => 'client.credentials'], function() use ($router) 
 
     $router->get('/parking', 'ParkingController@index');
     $router->post('/parking', 'ParkingController@store');
-    $router->get('/getparking/{month?}/{year?}', 'ParkingController@show');
+    $router->get('/getparking', 'ParkingController@show');
 
 
     /**
