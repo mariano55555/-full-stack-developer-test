@@ -24,6 +24,6 @@ class Parking extends Model
 
 
 
-    //protected $dates = ['deleted_at','start_time', 'end_time'];
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at','start_time', 'end_time'];
+    //protected $dates = ['deleted_at'];
 }
