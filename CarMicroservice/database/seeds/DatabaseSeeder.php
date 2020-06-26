@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         //factory(Car::class, 10)->create();
 
         // Crear las categorias
-        $oficial     = CarCategory:: create(['name' => 'Oficial', 'price_per_minute' => 0.00, 'isRegisterable' => true, 'isBillable' => false, 'monthlyCharge' => false]);
-        $residente   = CarCategory:: create(['name' => 'Residente', 'price_per_minute' => 0.05, 'isRegisterable' => true, 'isBillable' => true, 'monthlyCharge' => true]);
+        $oficial     = CarCategory::create(['name' => 'Oficial', 'price_per_minute' => 0.00, 'isRegisterable' => true, 'isBillable' => false, 'monthlyCharge' => false]);
+        $residente   = CarCategory::create(['name' => 'Residente', 'price_per_minute' => 0.05, 'isRegisterable' => true, 'isBillable' => true, 'monthlyCharge' => true]);
         $noresidente = CarCategory::create(['name' => 'No Residente', 'price_per_minute' => 0.5, 'isRegisterable' => false, 'isBillable' => true, 'monthlyCharge' => false]);
         $categories  = [$oficial->_id, $residente->_id, $noresidente->__id];
         //$categories  = [$oficial, $residente, $noresidente];
