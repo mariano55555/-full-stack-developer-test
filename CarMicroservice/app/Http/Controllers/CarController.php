@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 class CarController extends Controller
 {
 
-    use ApiResponser ;
+    use ApiResponser;
 
 
     public function index()
